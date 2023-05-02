@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Firebase Login System</title>
+  <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-auth.js"></script>
+</head>
+<body>
+  <div id="login-container">
+    <h2>Login</h2>
+    <button onclick="signInWithGoogle()">Sign in with Google</button>
+    <div id="user-details" style="display: none;">
+      <h3>User Details:</h3>
+      <div id="user-name">Name: N/A</div>
+      <div id="user-email">Email: N/A</div>
+      <button onclick="signOut()">Sign Out</button>
+    </div>
+  </div>
+
+  <script>
+    // Add your Firebase SDK snippet here
+    const firebaseConfig = {
+        apiKey: "AIzaSyCUqPX2Q0simFrfD5MCTGpNTUeRdRx-4-0",
+        authDomain: "peer-e62eb.firebaseapp.com",
+        projectId: "peer-e62eb",
+        storageBucket: "peer-e62eb.appspot.com",
+        messagingSenderId: "1081989149365",
+        appId: "1:1081989149365:web:4089afb275763f99e4c4fc",
+        measurementId: "G-6ZSR1M05M6"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+
+    // Get a reference to the auth service
+    const auth = firebase.auth();
+
+    // Sign in with Google
+    function signInWithGoogle() {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      auth.signInWithPopup(provider);
+    }
+
+    // Sign out
+    function signOut() {
+      auth.signOut();
+    }
+
+    // Update UI on auth state change
+    auth.onAuthStateChanged((user) => {
+      const userDetails = document.getElementById("user-details");
+      if (user) {
+        document.getElementById("user-name").textContent = `Name: ${user.displayName}`;
+        document.getElementById("user-email").textContent = `Email: ${user.email}`;
+        userDetails.style.display = "block";
+      } else {
+        userDetails.style.display = "none";
+      }
+    });
+  </script>
+</body>
+</html>
